@@ -1,15 +1,14 @@
 'use client';
 import React, { useState } from 'react';
-import ProblemDescriptionPage from '../../../pages/problems/[id]'; 
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 
-const SubmissionPage = () => {
+const SubmissionPage = ({ id }) => {
   const [input, setInput] = useState('');
   const [submissionResult, setSubmissionResult] = useState(null); // Updated to store the result
   const [submitting, setSubmitting] = useState(false);
-  const router = useRouter();
-  const { id } = router.query; // Get the ID from the dynamic route
+  // const router = useRouter();
+  // const { id } = router.query; // Get the ID from the dynamic route
 
   const handleInputChange = (e) => {
     setInput(e.target.value);

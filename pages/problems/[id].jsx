@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import SubmissionPage from '@/app/submission/page';
 
-const ProblemDescriptionPage = () => {
+const ProblemDescriptionPage = ({ id }) => {
   const [problemDescription, setProblemDescription] = useState('');
-  const router = useRouter();
-  const { id } = router.query; // Get the ID from the dynamic route
+  // const router = useRouter();
+  // const { id } = router.query; // Get the ID from the dynamic route
 
   useEffect(() => {
     if (!id) return; // Ensure the id is available
@@ -35,9 +35,17 @@ const ProblemDescriptionPage = () => {
         dangerouslySetInnerHTML={{ __html: problemDescription }}
         className="problem-description"
       />
-      <SubmissionPage/>
+      <SubmissionPage id={id}/>
     </div>
   );
 };
+
+// This gets called on every request
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  
+  // Pass data to the page via props
+  return { props: { id } };
+}
 
 export default ProblemDescriptionPage;
