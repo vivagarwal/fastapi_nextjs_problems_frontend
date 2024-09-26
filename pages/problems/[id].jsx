@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import SubmissionPage from '@/app/submission/page';
 
 const ProblemDescriptionPage = () => {
   const [problemDescription, setProblemDescription] = useState('');
+  const router = useRouter();
+  const { id } = router.query; // Get the ID from the dynamic route
 
   useEffect(() => {
+    if (!id) return; // Ensure the id is available
+
     const fetchProblemDescription = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-problem-description`);
+        console.log(id);
+        console.log(`${process.env.NEXT_PUBLIC_API_URL}`);
+        console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/get-problem-description/${id}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-problem-description/${id}`);
+        console.log(response);
         const htmlContent = await response.text(); // Fetch HTML as text
         setProblemDescription(htmlContent); // Set the fetched HTML content
       } catch (error) {
@@ -15,7 +25,7 @@ const ProblemDescriptionPage = () => {
     };
 
     fetchProblemDescription();
-  }, []);
+  }, [id]); // Re-fetch when the ID changes
 
   return (
     <div className="p-4">
@@ -25,6 +35,7 @@ const ProblemDescriptionPage = () => {
         dangerouslySetInnerHTML={{ __html: problemDescription }}
         className="problem-description"
       />
+      <SubmissionPage/>
     </div>
   );
 };
