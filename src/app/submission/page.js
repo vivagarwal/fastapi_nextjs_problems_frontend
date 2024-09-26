@@ -1,12 +1,15 @@
 'use client';
 import React, { useState } from 'react';
-import Palindrome from '../../../../components/Questions/Palindrome';
-import ProblemDescriptionPage from '../../../../components/ProblemDescriptionPage';
+import ProblemDescriptionPage from '../../../pages/problems/[id]'; 
+import { useRouter } from 'next/router';
 
-const PalindromeNumberPage = () => {
+
+const SubmissionPage = () => {
   const [input, setInput] = useState('');
   const [submissionResult, setSubmissionResult] = useState(null); // Updated to store the result
   const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
+  const { id } = router.query; // Get the ID from the dynamic route
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -17,7 +20,8 @@ const PalindromeNumberPage = () => {
     setSubmitting(true);
     console.log(submitting);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/check-palindrome`, {
+      console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/check-solution/${id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/check-solution/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,10 +50,7 @@ const PalindromeNumberPage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Palindrome Number Problem</h1>
       <div>
-        {/*<Palindrome/>*/}
-        <ProblemDescriptionPage/>
         {/* Input form */}
         <textarea
           className="w-full p-2 border rounded"
@@ -84,4 +85,4 @@ const PalindromeNumberPage = () => {
   );
 };
 
-export default PalindromeNumberPage;
+export default SubmissionPage;
