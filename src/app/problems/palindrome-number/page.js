@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Palindrome from '../../../../components/Questions/Palindrome';
+import ProblemDescriptionPage from '../../../../components/ProblemDescriptionPage';
 
 const PalindromeNumberPage = () => {
   const [input, setInput] = useState('');
@@ -47,7 +48,8 @@ const PalindromeNumberPage = () => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Palindrome Number Problem</h1>
       <div>
-        <Palindrome/>
+        {/*<Palindrome/>*/}
+        <ProblemDescriptionPage/>
         {/* Input form */}
         <textarea
           className="w-full p-2 border rounded"
