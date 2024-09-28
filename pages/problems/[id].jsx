@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import { useRouter } from 'next/router';
-import SubmissionPage from '@/app/submission/page';
+import SubmissionPage from '../../components/p';
 
 const ProblemDescriptionPage = ({ id }) => {
   const [problemDescription, setProblemDescription] = useState('');

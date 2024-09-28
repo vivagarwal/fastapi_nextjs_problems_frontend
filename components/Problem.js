@@ -50,6 +50,12 @@ export default function Problems() {
                     View
                   </Link>
                 </td>
+                <td className="py-2">
+                  {/* Create link to dynamic problem description page */}
+                  <Link href={`/problems/submit/${problem.id}`} className="text-blue-600 hover:underline">
+                    Solve
+                  </Link>
+                </td>
               </tr>
             ))
           ) : (
