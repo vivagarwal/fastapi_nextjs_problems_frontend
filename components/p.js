@@ -1,23 +1,17 @@
 'use client';
-import React, { useState } from 'react';
-// import { useRouter } from 'next/router';
-
+import React, { useState, useEffect } from 'react';
 
 const SubmissionPage = ({ id }) => {
   const [input, setInput] = useState('');
   const [submissionResult, setSubmissionResult] = useState(null); // Updated to store the result
   const [submitting, setSubmitting] = useState(false);
-  // const router = useRouter();
-  // const { id } = router.query; // Get the ID from the dynamic route
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
 
   const handleSubmit = async () => {
-    console.log(submitting);
     setSubmitting(true);
-    console.log(submitting);
     try {
       console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/check-solution/${id}`);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/check-solution/${id}`, {
