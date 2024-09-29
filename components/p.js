@@ -69,7 +69,7 @@ const SubmissionPage = ({ id }) => {
             <p className="border p-2 rounded">{submissionResult.input}</p>
           </div>
           <div>
-            <h3 className="font-bold">Output:</h3>
+            <h3 className="font-bold">Expected Output:</h3>
             <p className="border p-2 rounded">{submissionResult.output}</p>
           </div>
         </div>
