@@ -17,6 +17,8 @@ const ProblemDetails = ({ id }) => {
   const [language, setLanguage] = useState("cpp");
   const [output, setOutput] = useState("");
   const [input, setInput] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState(null);
   const editorRef = useRef(null);
 
   useEffect(() => {
@@ -70,6 +72,41 @@ const ProblemDetails = ({ id }) => {
     }
   };
 
+  const handleSubmit = async () => {
+    if (!id) {
+      setOutput("Error: Problem ID is missing.");
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitResult(null);
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: parseInt(id),
+          language,
+          code,
+        }),
+      });
+      const data = await response.json();
+      setSubmitResult(data);
+    } catch (error) {
+      console.error("Error submitting code:", error);
+      setSubmitResult({
+        success: false,
+        status: "Error",
+        message: "An unexpected error occurred"
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gray-100 w-screen">
       <h1 className="text-2xl font-bold mb-4">Problem Description</h1>
@@ -89,9 +126,7 @@ const ProblemDetails = ({ id }) => {
             className="bg-gray-700 text-white px-4 py-2 rounded"
           >
             <option value="cpp">C++</option>
-            <option value="java">Java</option>
             <option value="py">Python</option>
-            <option value="c">C</option>
           </select>
         </div>
         <div
@@ -138,6 +173,13 @@ const ProblemDetails = ({ id }) => {
           >
             Run Code
           </button>
+          <button
+            onClick={handleSubmit}
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit"}
+          </button>
         </div>
         <div className="mt-4">
           <h3 className="text-xl font-semibold mb-2">Output:</h3>
@@ -147,6 +189,15 @@ const ProblemDetails = ({ id }) => {
             className="w-full h-1/6 p-4 bg-gray-700 text-white font-mono rounded"
           />
         </div>
+
+        {submitResult && (
+          <div className={`mt-4 p-4 rounded ${
+            submitResult.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+          }`}>
+            <h3 className="text-lg font-semibold">{submitResult.status}</h3>
+            <p>{submitResult.message}</p>
+          </div>
+        )}
       </div>
     </div>
   );
